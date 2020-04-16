@@ -1,0 +1,27 @@
+{{/*
+  controller It selects the right controller for any given page's .Type and .Kind
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access public
+
+  @return See given controller's comblock
+
+  @example - Go Template
+    {{ with partial "controller" . }}
+      {{ .title }}
+    {{ end}}
+*/}}
+{{ $default_partial := "controllers/base.html" }}
+{{ $partial := $default_partial }}
+{{ $desired_partial := print "controllers/" .Type "/base.html" }}
+{{ if templates.Exists (print "partials/" $desired_partial) }}
+  {{ $partial = $desired_partial }}
+{{ end }}
+{{ $variant := .RelPermalink }}
+{{ with .File.UniqueID }}
+  {{ $variant = . }}
+{{ end }}
+{{ return partialCached $partial . $variant }}

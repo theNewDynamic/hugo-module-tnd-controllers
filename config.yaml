@@ -1,0 +1,8 @@
+module:
+  hugoVersion:
+    min: "0.60.0"
+  mounts:
+  - source: controller.html
+    target: layouts/partials/controller.html
+  - source: controllers
+    target: layouts/partials/controllers

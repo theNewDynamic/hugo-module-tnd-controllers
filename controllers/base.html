@@ -1,0 +1,25 @@
+{{/*
+  controller/base
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @return Map (.)
+          String (.title)
+          String (.permalink)
+          String (.description)
+          
+  @access public
+*/}}
+{{ $data := dict }}
+{{ $data = $data | merge (dict "title" .Title) }}
+{{ $data = $data | merge (dict "permalink" .RelPermalink) }}
+
+{{ with .Params.description }}
+  {{ $data = $data | merge (dict "description" .) }}
+{{ else }}
+{{ $data = $data | merge (dict "description" .Summary) }}
+{{ end }}
+
+{{ return $data }}
