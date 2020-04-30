@@ -12,14 +12,15 @@
           
   @access public
 */}}
-{{ $data := dict }}
-{{ $data = $data | merge (dict "title" .Title) }}
-{{ $data = $data | merge (dict "permalink" .RelPermalink) }}
+{{ $s := newScratch }}
+{{ $s.Set "data" dict }}
+{{ $s.SetInMap "data" "title" .Title }}
+{{ $s.SetInMap "data" "permalink" .RelPermalink }}
 
 {{ with .Params.description }}
-  {{ $data = $data | merge (dict "description" .) }}
+  {{ $s.SetInMap "data" "description" . }}
 {{ else }}
-{{ $data = $data | merge (dict "description" .Summary) }}
+  {{ $s.SetInMap "data" "description" .Summary }}
 {{ end }}
 
-{{ return $data }}
+{{ return $s.Get "data" }}
